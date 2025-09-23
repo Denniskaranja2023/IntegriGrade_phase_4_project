@@ -1,7 +1,14 @@
 from config import app, api, Resource, make_response, request, db
 from models import *
 from flask import session
-#CLASS_TEACHER RESOURCES
+
+# HOME RESOURCE
+class HomeResource(Resource):
+    def get(self):
+        return make_response({'message': 'Welcome to IntegriGrade - School Management System'}, 200)
+api.add_resource(HomeResource, '/')
+
+#1. CLASS_TEACHER RESOURCES
 class SubjectResource(Resource):
     # used by a classteacher to create a new subject
     def post(self):
@@ -137,9 +144,20 @@ class StudentReportResource(Resource):
         db.session.commit()
         
         return make_response({'student': student.name, 'general_report': student.general_report}, 200)
-api.add_resource(StudentReportResource, '/api/students/<int:student_id>/report')
+    
+    # used by a class teacher to delete a student
+    def delete(self, student_id):
+        student = Student.query.get(student_id)
+        if not student:
+            return make_response({'error': 'Student not found'}, 404)
+        
+        db.session.delete(student)
+        db.session.commit()
+        
+        return make_response({'message': 'Student deleted successfully'}, 200)
+api.add_resource(StudentReportResource, '/api/students/<int:student_id>')
 
-#STUDENT RESOURCES
+#2. STUDENT RESOURCES
 class StudentSubjectsResource(Resource):
     # used by a student to get her/his subjects
     def get(self, id):
@@ -202,7 +220,7 @@ class StudentLogoutResource(Resource):
         return make_response({'message': 'Logged out successfully'}, 200)
 api.add_resource(StudentLogoutResource, '/api/students/logout')
 
-#GUARDIAN RESOURCES
+#3. GUARDIAN RESOURCES
 class GuardianStudentsResource(Resource):
     # used by a guardian to get her/his students
     def get(self, id):
@@ -249,7 +267,27 @@ class GuardianLogoutResource(Resource):
         return make_response({'message': 'Logged out successfully'}, 200)
 api.add_resource(GuardianLogoutResource, '/api/guardians/logout')
 
-#TEACHER RESOURCES
+class GuardianSignupResource(Resource):
+    def post(self):
+        data = request.get_json()
+        
+        if Guardian.query.filter_by(name=data['name']).first():
+            return make_response({'error': 'Guardian already exists'}, 400)
+        
+        guardian = Guardian(
+            name=data['name'],
+            relationship=data.get('relationship'),
+            phone_number=data.get('phone_number')
+        )
+        guardian.password_hash = data['password']
+        
+        db.session.add(guardian)
+        db.session.commit()
+        
+        return make_response({'id': guardian.id, 'name': guardian.name}, 201)
+api.add_resource(GuardianSignupResource, '/api/guardians/signup')
+
+#4. TEACHER RESOURCES
 class TeacherLoginResource(Resource):
     def post(self):
         data = request.get_json()
@@ -267,6 +305,27 @@ class TeacherLogoutResource(Resource):
         session.pop('teacher_id', None)
         return make_response({'message': 'Logged out successfully'}, 200)
 api.add_resource(TeacherLogoutResource, '/api/teachers/logout')
+
+class TeacherSignupResource(Resource):
+    def post(self):
+        data = request.get_json()
+        
+        if Teacher.query.filter_by(name=data['name']).first():
+            return make_response({'error': 'Teacher already exists'}, 400)
+        
+        teacher = Teacher(
+            name=data['name'],
+            gender=data.get('gender'),
+            age=data.get('age'),
+            phone_number=data.get('phone_number')
+        )
+        teacher.password_hash = data['password']
+        
+        db.session.add(teacher)
+        db.session.commit()
+        
+        return make_response({'id': teacher.id, 'name': teacher.name}, 201)
+api.add_resource(TeacherSignupResource, '/api/teachers/signup')
 
 class TeacherStudentsResource(Resource):
     # used by a teacher to get all their students
@@ -314,6 +373,7 @@ class TeacherStudentDetailResource(Resource):
         }
         
         return make_response(student_data, 200)
+    
 api.add_resource(TeacherStudentDetailResource, '/api/teachers/<int:teacher_id>/students/<int:student_id>')
 
 class StudentGradeResource(Resource):
