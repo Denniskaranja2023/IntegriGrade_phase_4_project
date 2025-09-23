@@ -11,7 +11,8 @@ class ClassTeacher(db.Model, SerializerMixin):
     gender = db.Column(db.String)
     age = db.Column(db.Integer)
     _password_hash = db.Column(db.String)
-    
+    phone_number = db.Column(db.String)
+
     @hybrid_property
     def password_hash(self):
         return self._password_hash
@@ -26,6 +27,9 @@ class ClassTeacher(db.Model, SerializerMixin):
     
     students = db.relationship('Student', back_populates='classteacher', lazy=True)
     
+    def __repr__(self):
+        return f'<ClassTeacher {self.id}: {self.name}>'
+    
 class Guardian(db.Model, SerializerMixin):
     __tablename__ = 'guardians'
     
@@ -33,7 +37,8 @@ class Guardian(db.Model, SerializerMixin):
     name = db.Column(db.String, unique=True)
     relationship = db.Column(db.String)
     _password_hash = db.Column(db.String)
-    
+    phone_number = db.Column(db.String)
+
     @hybrid_property
     def password_hash(self):
         return self._password_hash
@@ -48,6 +53,8 @@ class Guardian(db.Model, SerializerMixin):
     
     students = db.relationship('Student', back_populates='guardian', lazy=True)
     
+    def __repr__(self):
+        return f'<Guardian {self.id}: {self.name}>'
 class Student(db.Model, SerializerMixin):
     __tablename__ = 'students'
 
@@ -76,6 +83,9 @@ class Student(db.Model, SerializerMixin):
     guardian = db.relationship('Guardian', back_populates='students')
     student_subjects = db.relationship('StudentSubject', back_populates='student', lazy=True)
     
+    def __repr__(self):
+        return f'<Student {self.id}: {self.name}>'
+    
 class Subject(db.Model, SerializerMixin):
     __tablename__ = 'subjects'
     
@@ -94,6 +104,7 @@ class Teacher(db.Model, SerializerMixin):
     gender = db.Column(db.String)
     age = db.Column(db.Integer)
     _password_hash = db.Column(db.String)
+    phone_number = db.Column(db.String)
     
     @hybrid_property
     def password_hash(self):
@@ -110,6 +121,9 @@ class Teacher(db.Model, SerializerMixin):
     student_subjects = db.relationship('StudentSubject', back_populates='teacher', lazy=True)
     teacher_subjects = db.relationship('TeacherSubject', back_populates='teacher', lazy=True)
     
+    def __repr__(self):
+        return f'<Teacher {self.name}>'
+    
 class StudentSubject(db.Model, SerializerMixin):
     __tablename__ = 'student_subjects'
     
@@ -122,6 +136,12 @@ class StudentSubject(db.Model, SerializerMixin):
     student = db.relationship('Student', back_populates='student_subjects')
     subject = db.relationship('Subject', back_populates='student_subjects')
     teacher = db.relationship('Teacher', back_populates='student_subjects')
+    
+    def __repr__(self):
+        student_name = self.student.name if self.student else 'Unknown'
+        subject_name = self.subject.name if self.subject else 'Unknown'
+        teacher_name = self.teacher.name if self.teacher else 'Unknown'
+        return f'<StudentSubject {self.id}: {student_name} - {subject_name} - teacher: {teacher_name}>'
     
 class TeacherSubject(db.Model, SerializerMixin):
     __tablename__ = 'teacher_subjects'
