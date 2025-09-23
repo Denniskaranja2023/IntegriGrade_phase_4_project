@@ -55,6 +55,7 @@ class Guardian(db.Model, SerializerMixin):
     
     def __repr__(self):
         return f'<Guardian {self.id}: {self.name}>'
+    
 class Student(db.Model, SerializerMixin):
     __tablename__ = 'students'
 
@@ -121,6 +122,10 @@ class Teacher(db.Model, SerializerMixin):
     student_subjects = db.relationship('StudentSubject', back_populates='teacher', lazy=True)
     teacher_subjects = db.relationship('TeacherSubject', back_populates='teacher', lazy=True)
     
+    @property
+    def students(self):
+        return list(set([ss.student for ss in self.student_subjects if ss.student]))
+    
     def __repr__(self):
         return f'<Teacher {self.name}>'
     
@@ -152,5 +157,10 @@ class TeacherSubject(db.Model, SerializerMixin):
     
     teacher = db.relationship('Teacher', back_populates='teacher_subjects')
     subject = db.relationship('Subject', back_populates='teacher_subjects')
+    
+    def __repr__(self):
+        teacher_name = self.teacher.name if self.teacher else 'Unknown'
+        subject_name = self.subject.name if self.subject else 'Unknown'
+        return f'<TeacherSubject {self.id}: {teacher_name} - {subject_name}>'
     
     

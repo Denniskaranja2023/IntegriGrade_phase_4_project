@@ -83,21 +83,55 @@ with app.app_context():
     db.session.add_all(subjects)
     db.session.commit()
 
-    for student in students:
-        for subject in subjects:
-            student_subject = StudentSubject(
-                student_id=student.id,
-                subject_id=subject.id,
-                teacher_id=fake.random_int(min=1, max=10)
-            )
-            db.session.add(student_subject)
-    db.session.commit()
-
     for teacher in teachers:
-        for subject in subjects:
+        used_subjects = set()
+        for i in range(3):
+            available_subjects = list(set(range(1, 11)) - used_subjects)
+            if not available_subjects:
+                break 
+            subject_id = fake.random_element(elements=available_subjects)
+            used_subjects.add(subject_id)   
             teacher_subject = TeacherSubject(
                 teacher_id=teacher.id,
-                subject_id=subject.id
+                subject_id= subject_id
             )
             db.session.add(teacher_subject)
+            
     db.session.commit()
+    
+        # Build a dictionary: subject_id -> list of teachers who teach it
+    subject_teachers = {}
+    for ts in TeacherSubject.query.all():
+        subject_teachers.setdefault(ts.subject_id, []).append(ts.teacher_id)
+
+    for student in students:
+        used_subjects = set()
+        used_teachers = set()
+
+        for i in range(5):
+            # pick a subject not already used for this student
+            available_subjects = list(set(range(1, 11)) - used_subjects)
+            if not available_subjects:
+                break
+            subject_id = fake.random_element(elements=available_subjects)
+            used_subjects.add(subject_id)
+
+            # pick a teacher who actually teaches that subject
+            valid_teachers = subject_teachers.get(subject_id, [])
+            available_teachers = list(set(valid_teachers) - used_teachers)
+            if not available_teachers:
+                continue  # no teacher left for this subject
+            teacher_id = fake.random_element(elements=available_teachers)
+            used_teachers.add(teacher_id)
+
+            # create student-subject entry
+            student_subject = StudentSubject(
+                student_id=student.id,
+                subject_id=subject_id,
+                teacher_id=teacher_id,
+                grade=fake.random_int(min=30, max=95)
+            )
+            db.session.add(student_subject)
+
+            db.session.commit()
+
