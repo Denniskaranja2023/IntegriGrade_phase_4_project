@@ -181,3 +181,150 @@
   background-color: #027373;
   color: #F2E7DC;
 }
+
+/* StudentCard Styles */
+.student-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+}
+
+.student-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.student-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.student-name {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.student-guardian {
+  margin: 0;
+  color: #666;
+}
+
+.student-info {
+  margin-bottom: 15px;
+}
+
+.student-info p {
+  margin: 5px 0;
+}
+
+.fee-cleared {
+  color: green;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.fee-not-cleared {
+  color: red;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.subjects-title {
+  margin: 10px 0;
+  color: #333;
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.subject-card {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  
+}
+
+.subject-name {
+  margin: 0 0 5px 0;
+  font-weight: bold;
+}
+
+.subject-teacher {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+}
+
+.subject-grade {
+  margin: 0;
+  font-size: 14px;
+}
+
+.grade-value {
+  font-weight: bold;
+}
+
+.no-subjects {
+  color: #666;
+  font-style: italic;
+}
+.studentlist-enclosment{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap:50px;
+  background-color: #F2E7DC; /* light background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.student-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+  font-size: small;
+  height: 45px;
+}
+
+.student-buttons button {
+  flex: 1;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  color: #F2E7DC;
+  background-color: #027373;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.student-buttons button:nth-child(1) {
+  background-color: #038C7F;
+}
+
+.student-buttons button:nth-child(2) {
+  background-color: #027373;
+}
+
+.student-buttons button:nth-child(3) {
+  background-color: #A9D9D0;
+  color: #0D0D0D;
+}
+
+.student-buttons button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}

@@ -15,11 +15,11 @@ with app.app_context():
     db.session.commit()
     class_teachers = []
     
-    class_teacher1= ClassTeacher(name="Mrs. Anne Wanjiku", age=30, gender="Female", phone_number="0723456371")
+    class_teacher1= ClassTeacher(name="Anne Wanjiku", age=30, gender="Female", phone_number="0723456371")
     class_teacher1.password_hash = "54321"
-    class_teacher2= ClassTeacher(name="Mrs. Esther Wangui", age=50, gender="Female", phone_number="0756234589")
+    class_teacher2= ClassTeacher(name="Esther Wangui", age=50, gender="Female", phone_number="0756234589")
     class_teacher2.password_hash = "54321"
-    class_teacher3= ClassTeacher(name="Mr. John Kamau", age=40, gender="Male", phone_number="0722678987")
+    class_teacher3= ClassTeacher(name="John Kamau", age=40, gender="Male", phone_number="0722678987")
     class_teacher3.password_hash = "54321"
     db.session.add_all([class_teacher1, class_teacher2, class_teacher3])
     db.session.commit()
