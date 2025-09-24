@@ -19,7 +19,7 @@ const ClassTeacherNavbar = () => {
       }
     }).catch(error=> console.error("Error", error))
   };
-
+  
   return (
     <nav className="navbar">
       <div className="navbar-brand">

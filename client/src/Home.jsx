@@ -35,7 +35,7 @@ function Home(){
           Guardian
         </button>
         
-        <button className="role-button">
+        <button className="role-button" onClick={() => navigate('/teacher-login')}>
           Teacher
         </button>
       </div>

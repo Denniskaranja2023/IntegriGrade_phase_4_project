@@ -230,6 +230,232 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.edit-form {
+  background-color: #A9D9D0;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  border: 2px solid #027373;
+  box-shadow: 0 3px 8px rgba(2, 115, 115, 0.2);
+}
+
+.form-label {
+  display: block;
+  color: #0D0D0D;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  color: #027373;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  font-weight: bold;
+}
+
+.submit-button {
+  background-color: #027373;
+  color: #F2E7DC;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.submit-button:hover {
+  background-color: #038C7F;
+}
+
+.teacher-student-container {
+  background-color: #F2E7DC;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.teacher-title {
+  color: #0D0D0D;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+.student-count {
+  color: #027373;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.3rem;
+}
+
+.teacher-student-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .teacher-student-grid {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+  }
+}
+
+.teacher-student-card {
+  background-color: #A9D9D0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(2, 115, 115, 0.2);
+  border: 2px solid #038C7F;
+  transition: transform 0.3s;
+  flex: 0 1 300px;
+  min-width: 280px;
+}
+
+@media (max-width: 768px) {
+  .teacher-student-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: unset;
+  }
+}
+
+.teacher-student-card:hover {
+  transform: translateY(-5px);
+}
+
+.student-image-container {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.teacher-student-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #027373;
+}
+
+.no-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #027373;
+  color: #F2E7DC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 0.8rem;
+}
+
+.teacher-student-info {
+  text-align: center;
+}
+
+.teacher-student-name {
+  color: #0D0D0D;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.teacher-student-subject,
+.teacher-student-grade {
+  color: #027373;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.change-grade-button {
+  background-color: #027373;
+  color: #F2E7DC;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.change-grade-button:hover {
+  background-color: #038C7F;
+}
+
+.grade-form {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #F2E7DC;
+  border-radius: 8px;
+}
+
+.grade-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #027373;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+}
+
+.submit-grade-button {
+  background-color: #038C7F;
+  color: #F2E7DC;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.submit-grade-button:hover {
+  background-color: #027373;
+}
+
+.no-students {
+  color: #027373;
+  text-align: center;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+.studentlist-enclosment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .studentlist-enclosment {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .teacher-student-container {
+    padding: 1rem;
+  }
+  
+  .teacher-title {
+    font-size: 2rem;
+  }
+  
+  .student-count {
+    font-size: 1.1rem;
+  }
+}
+
 /* StudentCard Styles */
 .student-card {
   border: 1px solid #ddd;
@@ -267,10 +493,13 @@
 
 .student-info {
   margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .student-info p {
   margin: 5px 0;
+  width: 350px;
 }
 
 .fee-cleared {
@@ -301,7 +530,6 @@
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #eee;
-  
 }
 
 .subject-name {
@@ -330,7 +558,7 @@
 .studentlist-enclosment{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   gap:50px;
   background-color: #F2E7DC; /* light background */
   padding: 20px;
