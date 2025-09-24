@@ -5,12 +5,12 @@ import * as Yup from 'yup';
 import './App.css';
 
 const validationSchema = Yup.object({
-  studentId: Yup.string()
-    .required('Student ID is required')
-    .min(3, 'Student ID must be at least 3 characters'),
+  studentName: Yup.string()
+    .required('Student Name is required')
+    .min(2, 'Student Name must be at least 2 characters'),
   password: Yup.string()
     .required('Password is required')
-    .min(6, 'Password must be at least 6 characters')
+    .max(12, 'Password must be at most 12 characters')
 });
 
 function StudentLogin() {
@@ -26,20 +26,20 @@ function StudentLogin() {
         <h2 className="login-title">Student Login</h2>
         
         <Formik
-          initialValues={{ studentId: '', password: '' }}
+          initialValues={{ studentName: '', password: '' }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
           <Form>
             <div className="form-group">
-              <label htmlFor="studentId">Student ID:</label>
+              <label htmlFor="studentName">Student Name:</label>
               <Field
                 type="text"
-                id="studentId"
-                name="studentId"
+                id="studentName"
+                name="studentName"
                 className="form-input"
               />
-              <ErrorMessage name="studentId" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
+              <ErrorMessage name="studentName" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
             </div>
             
             <div className="form-group">

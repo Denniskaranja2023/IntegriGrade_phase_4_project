@@ -5,9 +5,9 @@ import * as Yup from 'yup';
 import './App.css';
 
 const validationSchema = Yup.object({
-  guardianId: Yup.string()
-    .required('Guardian ID is required')
-    .min(3, 'Guardian ID must be at least 3 characters'),
+  guardianName: Yup.string()
+    .required('Guardian Name is required')
+    .min(2, 'Guardian Name must be at least 2 characters'),
   password: Yup.string()
     .required('Password is required')
     .min(6, 'Password must be at least 6 characters')
@@ -26,20 +26,20 @@ function GuardianLogin() {
         <h2 className="login-title">Guardian Login</h2>
         
         <Formik
-          initialValues={{ guardianId: '', password: '' }}
+          initialValues={{ guardianName: '', password: '' }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
           <Form>
             <div className="form-group">
-              <label htmlFor="guardianId">Guardian ID:</label>
+              <label htmlFor="guardianName">Guardian Name:</label>
               <Field
                 type="text"
-                id="guardianId"
-                name="guardianId"
+                id="guardianName"
+                name="guardianName"
                 className="form-input"
               />
-              <ErrorMessage name="guardianId" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
+              <ErrorMessage name="guardianName" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
             </div>
             
             <div className="form-group">

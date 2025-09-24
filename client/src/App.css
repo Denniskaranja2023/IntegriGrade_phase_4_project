@@ -98,7 +98,7 @@
 }
 
 .login-container {
-  background-color: #F2E7DC;
+  background-color: #808080
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -140,6 +140,7 @@
   border-radius: 6px;
   font-size: 1rem;
   background-color: #F2E7DC;
+  color: #0D0D0D;
   box-sizing: border-box;
 }
 
