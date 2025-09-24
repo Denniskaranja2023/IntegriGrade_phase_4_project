@@ -6,6 +6,13 @@ function Home(){
   const navigate = useNavigate();
 
   return (
+    <>
+     <nav className="navbar">
+      <div className="navbar-brand">
+        <span className="brand-integri">Integri</span>
+        <span className="brand-grade">Grade</span>
+      </div>
+    </nav>
     <div className="home-container">
       <h1 className="home-title">
         Welcome to <span className="integri">Integri</span><span className="grade">Grade</span>
@@ -33,6 +40,7 @@ function Home(){
         </button>
       </div>
     </div>
+    </>
   );
 };
 

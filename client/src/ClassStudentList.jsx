@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StudentCard from './StudentCard';
+import ClassTeacherNavbar from "./ClassTeacherNavbar";
 
 function ClassStudentList() {
   const[students, setStudents]= useState(null)
@@ -34,6 +35,7 @@ function ClassStudentList() {
   
   return (
     <>
+    <ClassTeacherNavbar/>
     <h1 style={{color:"#027373", marginBottom:"10px"}}> Welcome to your class</h1>
     <h2 style={{color:"#038C7F", marginBottom:"5px"}}>Students List</h2>
     <h2 style={{color:"#038C7F", marginBottom:"5px"}}>Total number of students:{students.length}</h2>
