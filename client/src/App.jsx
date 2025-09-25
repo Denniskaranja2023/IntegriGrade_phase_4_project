@@ -36,10 +36,18 @@ function App() {
             <GuardianDashboard />
           </ProtectedRoute>
         } />
-        <Route path="/classteacher-studentList" element={<ClassStudentList/>} />
+        <Route path="/classteacher-studentList" element={
+          <ProtectedRoute userType="classteacher">
+            <ClassStudentList/>
+          </ProtectedRoute>
+        } />
         <Route path="/teacher-login" element={<TeacherLogin />} />
         <Route path="/teacher-signup" element={<TeacherSignup />} />
-        <Route path="/teacher-student-list" element={<TeacherStudentList />} />
+        <Route path="/teacher-student-list" element={
+          <ProtectedRoute userType="teacher">
+            <TeacherStudentList />
+          </ProtectedRoute>
+        } />
       </Routes>
     </Router>
   )

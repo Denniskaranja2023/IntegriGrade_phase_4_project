@@ -268,6 +268,108 @@ class StudentLogoutResource(Resource):
         return make_response({'message': 'Logged out successfully'}, 200)
 api.add_resource(StudentLogoutResource, '/api/students/logout')
 
+class StudentProfileResource(Resource):
+    def get(self, id):
+        student = Student.query.get(id)
+        if not student:
+            return make_response({'error': 'Student not found'}, 404)
+        
+        student_data = {
+            'id': student.id,
+            'name': student.name,
+            'classteacher_id': student.classteacher_id,
+            'guardian': {
+                'id': student.guardian.id,
+                'name': student.guardian.name,
+                'phone_number': student.guardian.phone_number
+            } if student.guardian else None,
+            'general_report': student.general_report,
+            'fee_status': student.fee_status,
+            'image': student.image
+        }
+        
+        return make_response(student_data, 200)
+        
+api.add_resource(StudentProfileResource, '/api/students/<int:id>/profile')
+
+class StudentSubjectCreateResource(Resource):
+    def post(self):
+        data = request.get_json()
+        
+        # Check if student exists
+        student = Student.query.get(data.get('student_id'))
+        if not student:
+            return make_response({'error': 'Student not found'}, 404)
+        
+        # Check if teacher exists
+        teacher = Teacher.query.get(data.get('teacher_id'))
+        if not teacher:
+            return make_response({'error': 'Teacher not found'}, 404)
+        
+        # Check if subject exists
+        subject = Subject.query.get(data.get('subject_id'))
+        if not subject:
+            return make_response({'error': 'Subject not found'}, 404)
+        
+        # Check if student-subject combination already exists
+        existing = StudentSubject.query.filter_by(
+            student_id=data.get('student_id'),
+            subject_id=data.get('subject_id')
+        ).first()
+        
+        if existing:
+            return make_response({'error': 'Student already enrolled in this subject'}, 400)
+        
+        # Create new student subject
+        student_subject = StudentSubject(
+            student_id=data.get('student_id'),
+            subject_id=data.get('subject_id'),
+            teacher_id=data.get('teacher_id')
+        )
+        
+        db.session.add(student_subject)
+        db.session.commit()
+        
+        return make_response({
+            'message': 'Subject added successfully',
+            'student': student.name,
+            'subject': subject.name,
+            'teacher': teacher.name
+        }, 201)
+        
+api.add_resource(StudentSubjectCreateResource, '/api/student_subjects')
+
+class StudentProfileUpdateResource(Resource):
+    def put(self, id):
+        return self._update_profile(id)
+    
+    def patch(self, id):
+        return self._update_profile(id)
+    
+    def _update_profile(self, id):
+        data = request.get_json()
+        
+        student = Student.query.get(id)
+        if not student:
+            return make_response({'error': 'Student not found'}, 404)
+        
+        # Allow students to update their own profile fields
+        if 'name' in data:
+            student.name = data['name']
+        if 'image' in data:
+            student.image = data['image']
+        
+        db.session.commit()
+        
+        return make_response({
+            'message': 'Profile updated successfully',
+            'id': student.id,
+            'name': student.name,
+            'image': student.image
+        }, 200)
+        
+api.add_resource(StudentProfileUpdateResource, '/api/students/<int:id>/profile/update')
+
 #3. GUARDIAN RESOURCES
 class GuardianStudentsResource(Resource):
     # used by a guardian to get her/his students
@@ -282,6 +384,11 @@ class GuardianStudentsResource(Resource):
                 'id': student.id,
                 'name': student.name,
                 'classteacher_id': student.classteacher_id,
+                'classteacher': {
+                    'id': student.classteacher.id,
+                    'name': student.classteacher.name,
+                    'phone_number': student.classteacher.phone_number
+                } if student.classteacher else None,
                 'general_report': student.general_report,
                 'fee_status': student.fee_status,
                 'image': student.image,

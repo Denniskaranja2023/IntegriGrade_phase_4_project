@@ -72,7 +72,7 @@ function StudentDashboard() {
         return;
       }
 
-      const response = await fetch(`/api/students/${studentId}/update`, {
+      const response = await fetch(`/api/students/${studentId}/profile/update`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -95,8 +95,8 @@ function StudentDashboard() {
         sessionStorage.setItem('student_name', data.name);
       }
       
-      // Refresh the page to reflect changes
-      window.location.reload();
+      // Refresh the data to reflect changes
+      fetchStudentData();
     } catch (error) {
       console.error('Update error:', error);
       alert('Update failed. Please try again.');
