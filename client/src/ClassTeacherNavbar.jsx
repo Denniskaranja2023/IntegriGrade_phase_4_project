@@ -8,7 +8,7 @@ const ClassTeacherNavbar = () => {
   function handleLogout(){
     const confirmMessage= confirm("Are you sure you want to log out?")
     if (!confirmMessage) return
-    localStorage.removeItem("classteacher_id");
+    sessionStorage.removeItem("classteacher_id");
     fetch('/api/classteachers/logout',{method:"POST"})
     .then(res=>{
       if (res.status===200){

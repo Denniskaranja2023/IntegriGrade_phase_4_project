@@ -33,7 +33,7 @@ const TeacherLogin = () => {
       })
       .then(data => {
         alert('Login successful');
-        localStorage.setItem('teacher_id', data.id);
+        sessionStorage.setItem('teacher_id', data.id);
         document.cookie = `teacher_session=${data.id}; path=/`;
         formik.resetForm();
         navigate('/teacher-student-list');

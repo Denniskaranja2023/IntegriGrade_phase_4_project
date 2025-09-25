@@ -9,7 +9,7 @@ function ClassStudentList() {
   const[refreshPage, setRefreshPage]= useState(false)
   const[error, setError]= useState(null)
 
-  const teacherId = localStorage.getItem("classteacher_id")
+  const teacherId = sessionStorage.getItem("classteacher_id")
   useEffect(()=>{
     fetch(`/api/classteachers/${teacherId}/students`)
     .then(async (res)=>{

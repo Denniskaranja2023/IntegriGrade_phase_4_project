@@ -10,7 +10,7 @@ const TeacherStudentList = () => {
   const [error, setError] = useState(null);
   const [refreshPage, setRefreshPage] = useState(false);
 
-  const teacherId = localStorage.getItem('teacher_id');
+  const teacherId = sessionStorage.getItem('teacher_id');
 
   const handleLogout = () => {
     const confirmLogout = confirm('Are you sure you want to logout?');
@@ -20,7 +20,7 @@ const TeacherStudentList = () => {
         headers: { 'Content-Type': 'application/json' }
       })
       .then(() => {
-        localStorage.removeItem('teacher_id');
+        sessionStorage.removeItem('teacher_id');
         navigate('/teacher-login');
       })
       .catch(error => console.error('Logout error:', error));

@@ -31,7 +31,7 @@ const formik= useFormik({
       const data = await res.json();
 
       // store in localStorage
-      localStorage.setItem("classteacher_id", data.id);
+      sessionStorage.setItem("classteacher_id", data.id);
       // navigate after login
       navigate("/classteacher-studentList");
     } else {
