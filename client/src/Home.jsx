@@ -27,11 +27,11 @@ function Home(){
           Classteacher
         </button>
         
-        <button className="role-button">
+        <button className="role-button" onClick={() => navigate('/student-login')}>
           Student
         </button>
         
-        <button className="role-button">
+        <button className="role-button" onClick={() => navigate('/guardian-login')}>
           Guardian
         </button>
         
