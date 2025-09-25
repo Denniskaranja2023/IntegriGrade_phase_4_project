@@ -329,6 +329,162 @@
 }
 
 .profile-image {
+.navbar {
+  background: linear-gradient(135deg, #027373 0%, #038C7F 100%);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(2, 115, 115, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.brand-integri {
+  color: #F2E7DC;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.brand-grade {
+  color: #A9D9D0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.logout-button {
+  background-color: #F2E7DC;
+  color: #027373;
+  border: 2px solid #A9D9D0;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logout-button:hover {
+  background-color: #A9D9D0;
+  color: #0D0D0D;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.edit-form {
+  background-color: #A9D9D0;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  border: 2px solid #027373;
+  box-shadow: 0 3px 8px rgba(2, 115, 115, 0.2);
+}
+
+.form-label {
+  display: block;
+  color: #0D0D0D;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  color: #027373;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  font-weight: bold;
+}
+
+.submit-button {
+  background-color: #027373;
+  color: #F2E7DC;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.submit-button:hover {
+  background-color: #038C7F;
+}
+
+.teacher-student-container {
+  background-color: #F2E7DC;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.teacher-title {
+  color: #0D0D0D;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+.student-count {
+  color: #027373;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.3rem;
+}
+
+.teacher-student-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .teacher-student-grid {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+  }
+}
+
+.teacher-student-card {
+  background-color: #A9D9D0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(2, 115, 115, 0.2);
+  border: 2px solid #038C7F;
+  transition: transform 0.3s;
+  flex: 0 1 300px;
+  min-width: 280px;
+}
+
+@media (max-width: 768px) {
+  .teacher-student-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: unset;
+  }
+}
+
+.teacher-student-card:hover {
+  transform: translateY(-5px);
+}
+
+.student-image-container {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.teacher-student-image {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -340,6 +496,7 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
+
   background-color: #A9D9D0;
   display: flex;
   align-items: center;
@@ -405,4 +562,259 @@
 .update-form-section h3 {
   color: #0D0D0D;
   margin-bottom: 15px;
+  background-color: #027373;
+  color: #F2E7DC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 0.8rem;
+}
+
+.teacher-student-info {
+  text-align: center;
+}
+
+.teacher-student-name {
+  color: #0D0D0D;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.teacher-student-subject,
+.teacher-student-grade {
+  color: #027373;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.change-grade-button {
+  background-color: #027373;
+  color: #F2E7DC;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.change-grade-button:hover {
+  background-color: #038C7F;
+}
+
+.grade-form {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #F2E7DC;
+  border-radius: 8px;
+}
+
+.grade-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #027373;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+}
+
+.submit-grade-button {
+  background-color: #038C7F;
+  color: #F2E7DC;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.submit-grade-button:hover {
+  background-color: #027373;
+}
+
+.no-students {
+  color: #027373;
+  text-align: center;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+.studentlist-enclosment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .studentlist-enclosment {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .teacher-student-container {
+    padding: 1rem;
+  }
+  
+  .teacher-title {
+    font-size: 2rem;
+  }
+  
+  .student-count {
+    font-size: 1.1rem;
+  }
+}
+
+/* StudentCard Styles */
+.student-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+}
+
+.student-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.student-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.student-name {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.student-guardian {
+  margin: 0;
+  color: #666;
+}
+
+.student-info {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.student-info p {
+  margin: 5px 0;
+  width: 350px;
+}
+
+.fee-cleared {
+  color: green;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.fee-not-cleared {
+  color: red;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.subjects-title {
+  margin: 10px 0;
+  color: #333;
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.subject-card {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+.subject-name {
+  margin: 0 0 5px 0;
+  font-weight: bold;
+}
+
+.subject-teacher {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+}
+
+.subject-grade {
+  margin: 0;
+  font-size: 14px;
+}
+
+.grade-value {
+  font-weight: bold;
+}
+
+.no-subjects {
+  color: #666;
+  font-style: italic;
+}
+.studentlist-enclosment{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap:50px;
+  background-color: #F2E7DC; /* light background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.student-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+  font-size: small;
+  height: 45px;
+}
+
+.student-buttons button {
+  flex: 1;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  color: #F2E7DC;
+  background-color: #027373;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.student-buttons button:nth-child(1) {
+  background-color: #038C7F;
+}
+
+.student-buttons button:nth-child(2) {
+  background-color: #027373;
+}
+
+.student-buttons button:nth-child(3) {
+  background-color: #A9D9D0;
+  color: #0D0D0D;
+}
+
+.student-buttons button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+ 
 }
