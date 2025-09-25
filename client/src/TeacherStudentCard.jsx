@@ -22,7 +22,6 @@ const TeacherStudentCard = ({ student, teacherId, setRefreshPage, refreshPage })
       .then(res => {
         if (res.status === 200) {
           alert('Grade updated successfully');
-          formik.resetForm();
           setShowGradeForm(false);
           setRefreshPage(!refreshPage);
         } else {
