@@ -9,7 +9,12 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-app= Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../client/dist',
+    template_folder='../client/dist'
+)
 app.secret_key = b' \xee5#\x02\x9d\xe1{\x8fIDMy/F\xa3'
 app.config['SQLALCHEMY_DATABASE_URI']= os.environ.get('DATABASE_URI', 'sqlite:///app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

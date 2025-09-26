@@ -16,11 +16,11 @@ with app.app_context():
     db.session.commit()
     class_teachers = []
     
-    class_teacher1= ClassTeacher(name="Anne Wanjiku", age=30, gender="Female", phone_number="0723456371")
+    class_teacher1= ClassTeacher(id=1, name="Anne Wanjiku", age=30, gender="Female", phone_number="0723456371")
     class_teacher1.password_hash = "classteacher"
-    class_teacher2= ClassTeacher(name="Esther Wangui", age=50, gender="Female", phone_number="0756234589")
+    class_teacher2= ClassTeacher(id=2, name="Esther Wangui", age=50, gender="Female", phone_number="0756234589")
     class_teacher2.password_hash = "classteacher"
-    class_teacher3= ClassTeacher(name="John Kamau", age=40, gender="Male", phone_number="0722678987")
+    class_teacher3= ClassTeacher(id=3, name="John Kamau", age=40, gender="Male", phone_number="0722678987")
     class_teacher3.password_hash = "classteacher"
     db.session.add_all([class_teacher1, class_teacher2, class_teacher3])
     db.session.commit()
@@ -28,7 +28,7 @@ with app.app_context():
     relationships=["Parent", "Guardian"]
     
     guardians=[]
-    guardian_ex=Guardian(name="Andrew Kibe" , phone_number="0723456371", relationship="Parent")
+    guardian_ex=Guardian(id=1, name="Andrew Kibe" , phone_number="0723456371", relationship="Parent")
     guardian_ex.password_hash = "guardian"
     guardians.append(guardian_ex)
     for i in range(15):
@@ -41,7 +41,7 @@ with app.app_context():
     
     
     teachers = []
-    teacher_ex=Teacher(name="Jane Wambui", age=30, gender="Female", phone_number="0723456371")
+    teacher_ex=Teacher(id=1, name="Jane Wambui", age=30, gender="Female", phone_number="0723456371")
     teacher_ex.password_hash = "teacher"
     teachers.append(teacher_ex)
     for i in range(5):
@@ -72,7 +72,7 @@ with app.app_context():
     guardian_ids = [g.id for g in guardians]
     
     students = []
-    student_ex=Student(name="Charlie Kirk", classteacher_id=classteacher_ids[0], guardian_id=guardian_ids[0], general_report="Doing well. Well done", fee_status=True, image="https://thumbs.dreamstime.com/b/happy-black-teen-boy-outside-african-american-smiles-sitting-bench-192130399.jpg")
+    student_ex=Student(id=1, name="Charlie Kirk", classteacher_id=classteacher_ids[0], guardian_id=guardian_ids[0], general_report="Doing well. Well done", fee_status=True, image="https://thumbs.dreamstime.com/b/happy-black-teen-boy-outside-african-american-smiles-sitting-bench-192130399.jpg")
     student_ex.password_hash = "student"
     students.append(student_ex)
     for i in range(30):

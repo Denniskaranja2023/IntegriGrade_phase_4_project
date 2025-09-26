@@ -1,6 +1,11 @@
 from config import app, api, Resource, make_response, request, db
 from models import *
 from flask import session
+from flask import render_template
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
 
 # HOME RESOURCE
 class HomeResource(Resource):
