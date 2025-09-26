@@ -17,6 +17,7 @@ faker = "*"
 python-dotenv = "*"
 gunicorn = "*"
 honcho = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
