@@ -1,6 +1,6 @@
 # IntegriGrade 
 ## Description
-IntegriGrade is a convenient grade and progress reporting system used in a school setting to allow teachers to post student grades and progress report for guardians to receive fisthand information about how their dependants are doing and students to see their progress.
+IntegriGrade is a convenient **grade and progress reporting system** used in a school setting to allow teachers to post student grades and progress report for guardians to receive fisthand information about how their dependants are doing and students to see their progress.
 
 ## Contributors
 1. Dennis Karanja
