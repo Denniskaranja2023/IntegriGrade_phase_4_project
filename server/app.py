@@ -7,11 +7,6 @@ from flask import render_template
 def not_found(e):
     return render_template("index.html")
 
-# HOME RESOURCE
-class HomeResource(Resource):
-    def get(self):
-        return make_response({'message': 'Welcome to IntegriGrade - School Management System'}, 200)
-api.add_resource(HomeResource, '/')
 
 #1. CLASS_TEACHER RESOURCES
 class SubjectResource(Resource):
