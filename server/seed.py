@@ -16,13 +16,14 @@ with app.app_context():
     class_teachers = []
     
     class_teacher1= ClassTeacher(name="Anne Wanjiku", age=30, gender="Female", phone_number="0723456371")
-    class_teacher1.password_hash = "54321"
+    class_teacher1.password_hash = "classteacher"
     class_teacher2= ClassTeacher(name="Esther Wangui", age=50, gender="Female", phone_number="0756234589")
-    class_teacher2.password_hash = "54321"
+    class_teacher2.password_hash = "classteacher"
     class_teacher3= ClassTeacher(name="John Kamau", age=40, gender="Male", phone_number="0722678987")
-    class_teacher3.password_hash = "54321"
+    class_teacher3.password_hash = "classteacher"
     db.session.add_all([class_teacher1, class_teacher2, class_teacher3])
     db.session.commit()
+    print("Classteachers successfully added")
     relationships=["Parent", "Guardian"]
     
     guardians=[]
@@ -32,7 +33,7 @@ with app.app_context():
         guardians.append(guardian)
     db.session.add_all(guardians)
     db.session.commit()
-    
+    print("Guardians successfully added")
     
     teachers = []
     for i in range(5):
@@ -49,10 +50,11 @@ with app.app_context():
             age=fake.random_int(min=25, max=60),
             phone_number=fake.phone_number()
         )
-        teacher.password_hash = 'teacherpassword'
+        teacher.password_hash = 'teacher'
         teachers.append(teacher)
     db.session.add_all(teachers)
     db.session.commit()
+    print("Teachers successfully added")
 
     
     general_reports= ["needs to improve overall", "Doing well. Well done"]
@@ -67,10 +69,11 @@ with app.app_context():
             fee_status=fake.boolean(chance_of_getting_true=70),
             image= random.choice(random_photos)
         )
-        student.password_hash = 'password'
+        student.password_hash = 'student'
         students.append(student)
     db.session.add_all(students)
     db.session.commit()
+    print("students successfully added")
     
     available_subjects=["Geography", "Chemistry", "Biology", "Mathematics", "English", "Kiswahili", "Physics", "History", "Computer Studies", "Agriculture"]
     subjects = []
@@ -134,4 +137,5 @@ with app.app_context():
             db.session.add(student_subject)
 
             db.session.commit()
-
+            
+    print("complete")

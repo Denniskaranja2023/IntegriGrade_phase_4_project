@@ -292,52 +292,7 @@ class StudentProfileResource(Resource):
         
 api.add_resource(StudentProfileResource, '/api/students/<int:id>/profile')
 
-class StudentSubjectCreateResource(Resource):
-    def post(self):
-        data = request.get_json()
-        
-        # Check if student exists
-        student = Student.query.get(data.get('student_id'))
-        if not student:
-            return make_response({'error': 'Student not found'}, 404)
-        
-        # Check if teacher exists
-        teacher = Teacher.query.get(data.get('teacher_id'))
-        if not teacher:
-            return make_response({'error': 'Teacher not found'}, 404)
-        
-        # Check if subject exists
-        subject = Subject.query.get(data.get('subject_id'))
-        if not subject:
-            return make_response({'error': 'Subject not found'}, 404)
-        
-        # Check if student-subject combination already exists
-        existing = StudentSubject.query.filter_by(
-            student_id=data.get('student_id'),
-            subject_id=data.get('subject_id')
-        ).first()
-        
-        if existing:
-            return make_response({'error': 'Student already enrolled in this subject'}, 400)
-        
-        # Create new student subject
-        student_subject = StudentSubject(
-            student_id=data.get('student_id'),
-            subject_id=data.get('subject_id'),
-            teacher_id=data.get('teacher_id')
-        )
-        
-        db.session.add(student_subject)
-        db.session.commit()
-        
-        return make_response({
-            'message': 'Subject added successfully',
-            'student': student.name,
-            'subject': subject.name,
-            'teacher': teacher.name
-        }, 201)
-        
-api.add_resource(StudentSubjectCreateResource, '/api/student_subjects')
+
 
 class StudentProfileUpdateResource(Resource):
     def put(self, id):
