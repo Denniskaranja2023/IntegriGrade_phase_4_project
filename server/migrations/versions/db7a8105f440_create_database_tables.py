@@ -1,8 +1,8 @@
-"""Create all tables
+"""create database tables
 
-Revision ID: 873340cf74f3
+Revision ID: db7a8105f440
 Revises: 
-Create Date: 2025-09-23 13:04:09.132639
+Create Date: 2025-09-26 17:10:17.089880
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '873340cf74f3'
+revision = 'db7a8105f440'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,7 @@ def upgrade():
     sa.Column('gender', sa.String(), nullable=True),
     sa.Column('age', sa.Integer(), nullable=True),
     sa.Column('_password_hash', sa.String(), nullable=True),
+    sa.Column('phone_number', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
@@ -32,6 +33,7 @@ def upgrade():
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('relationship', sa.String(), nullable=True),
     sa.Column('_password_hash', sa.String(), nullable=True),
+    sa.Column('phone_number', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
@@ -48,6 +50,7 @@ def upgrade():
     sa.Column('gender', sa.String(), nullable=True),
     sa.Column('age', sa.Integer(), nullable=True),
     sa.Column('_password_hash', sa.String(), nullable=True),
+    sa.Column('phone_number', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )

@@ -5,12 +5,13 @@ from config import db, app
 
 fake =Faker()
 with app.app_context():
-    Teacher.query.delete()
-    Student.query.delete()
-    Guardian.query.delete()
-    ClassTeacher.query.delete()
+    # Delete in correct order to avoid foreign key violations
     StudentSubject.query.delete()
     TeacherSubject.query.delete()
+    Student.query.delete()
+    Teacher.query.delete()
+    Guardian.query.delete()
+    ClassTeacher.query.delete()
     Subject.query.delete()
     db.session.commit()
     class_teachers = []
@@ -27,6 +28,9 @@ with app.app_context():
     relationships=["Parent", "Guardian"]
     
     guardians=[]
+    guardian_ex=Guardian(name="Andrew Kibe" , phone_number="0723456371", relationship="Parent")
+    guardian_ex.password_hash = "guardian"
+    guardians.append(guardian_ex)
     for i in range(15):
         guardian= Guardian(name=fake.name(), phone_number=fake.phone_number(), relationship= random.choice(relationships))
         guardian.password_hash = "guardian"
@@ -35,7 +39,11 @@ with app.app_context():
     db.session.commit()
     print("Guardians successfully added")
     
+    
     teachers = []
+    teacher_ex=Teacher(name="Jane Wambui", age=30, gender="Female", phone_number="0723456371")
+    teacher_ex.password_hash = "teacher"
+    teachers.append(teacher_ex)
     for i in range(5):
         gender = fake.random_element(elements=('Male', 'Female'))
     
@@ -59,12 +67,19 @@ with app.app_context():
     
     general_reports= ["needs to improve overall", "Doing well. Well done"]
     random_photos=["https://thumbs.dreamstime.com/b/happy-black-teen-boy-outside-african-american-smiles-sitting-bench-192130399.jpg", "https://thumbs.dreamstime.com/b/african-american-confident-teen-male-stares-confidently-lens-camera-as-poses-high-school-senior-73055413.jpg", "https://media.istockphoto.com/id/887302366/photo/portrait-of-male-teenage-student-in-uniform-outside-buildings.jpg?s=612x612&w=0&k=20&c=hoha_IGYlGKM57gqX0QPQdnBvnrJPtHLn8ErZ6QK2nY=", "https://img.freepik.com/premium-photo/vertical-portrait-teen-african-american-male-high-school-student-looking-camera-back-school_411082-874.jpg"]
+    # Get actual classteacher and guardian IDs
+    classteacher_ids = [ct.id for ct in [class_teacher1, class_teacher2, class_teacher3]]
+    guardian_ids = [g.id for g in guardians]
+    
     students = []
+    student_ex=Student(name="Charlie Kirk", classteacher_id=classteacher_ids[0], guardian_id=guardian_ids[0], general_report="Doing well. Well done", fee_status=True, image="https://thumbs.dreamstime.com/b/happy-black-teen-boy-outside-african-american-smiles-sitting-bench-192130399.jpg")
+    student_ex.password_hash = "student"
+    students.append(student_ex)
     for i in range(30):
         student = Student(
             name = f"{fake.first_name_male()} {fake.last_name()}",
-            classteacher_id=fake.random_int(min=1, max=3),
-            guardian_id=fake.random_int(min=1, max=15),
+            classteacher_id=fake.random_element(elements=classteacher_ids),
+            guardian_id=fake.random_element(elements=guardian_ids),
             general_report=random.choice(general_reports),
             fee_status=fake.boolean(chance_of_getting_true=70),
             image= random.choice(random_photos)
@@ -85,24 +100,29 @@ with app.app_context():
         subjects.append(subject)
     db.session.add_all(subjects)
     db.session.commit()
+    print("Subjects successfully added")
+    
+    # Get actual subject IDs
+    subject_ids = [s.id for s in subjects]
 
     for teacher in teachers:
         used_subjects = set()
         for i in range(3):
-            available_subjects = list(set(range(1, 11)) - used_subjects)
+            available_subjects = list(set(subject_ids) - used_subjects)
             if not available_subjects:
                 break 
             subject_id = fake.random_element(elements=available_subjects)
             used_subjects.add(subject_id)   
             teacher_subject = TeacherSubject(
                 teacher_id=teacher.id,
-                subject_id= subject_id
+                subject_id=subject_id
             )
             db.session.add(teacher_subject)
             
     db.session.commit()
+    print("TeacherSubjects successfully added")
     
-        # Build a dictionary: subject_id -> list of teachers who teach it
+    # Build a dictionary: subject_id -> list of teachers who teach it
     subject_teachers = {}
     for ts in TeacherSubject.query.all():
         subject_teachers.setdefault(ts.subject_id, []).append(ts.teacher_id)
@@ -113,7 +133,7 @@ with app.app_context():
 
         for i in range(5):
             # pick a subject not already used for this student
-            available_subjects = list(set(range(1, 11)) - used_subjects)
+            available_subjects = list(set(subject_ids) - used_subjects)
             if not available_subjects:
                 break
             subject_id = fake.random_element(elements=available_subjects)
@@ -136,6 +156,7 @@ with app.app_context():
             )
             db.session.add(student_subject)
 
-            db.session.commit()
+    db.session.commit()
+    print("StudentSubjects successfully added")
             
     print("complete")

@@ -5,10 +5,13 @@ from flask_restful import Api, Resource
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import MetaData
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app= Flask(__name__)
 app.secret_key = b' \xee5#\x02\x9d\xe1{\x8fIDMy/F\xa3'
-app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI']= os.environ.get('DATABASE_URI', 'sqlite:///app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
