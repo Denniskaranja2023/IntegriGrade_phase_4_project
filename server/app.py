@@ -62,6 +62,22 @@ class TeacherResource(Resource):
         return make_response(teachers_data, 200)
 api.add_resource(TeacherResource, '/api/teachers')
 
+class ClassTeacherResource(Resource):
+    # used to get all classteachers
+    def get(self):
+        classteachers = ClassTeacher.query.all()
+        classteachers_data = [{'id': ct.id, 'name': ct.name} for ct in classteachers]
+        return make_response(classteachers_data, 200)
+api.add_resource(ClassTeacherResource, '/api/classteachers')
+
+class GuardianResource(Resource):
+    # used to get all guardians
+    def get(self):
+        guardians = Guardian.query.all()
+        guardians_data = [{'id': g.id, 'name': g.name} for g in guardians]
+        return make_response(guardians_data, 200)
+api.add_resource(GuardianResource, '/api/guardians')
+
 class TeacherSubjectResource(Resource):
     # used by a classteacher to assign a teacher to a subject
     def post(self):
@@ -313,6 +329,8 @@ class StudentProfileUpdateResource(Resource):
             student.name = data['name']
         if 'image' in data:
             student.image = data['image']
+        if 'password' in data:
+            student.password_hash = data['password']
         
         db.session.commit()
         

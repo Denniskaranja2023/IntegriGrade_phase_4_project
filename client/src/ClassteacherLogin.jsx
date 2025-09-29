@@ -24,15 +24,13 @@ const formik= useFormik({
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(values),
-  credentials: "include" // makes sure cookies (session) are stored too
+  credentials: "include" 
   })
   .then(async (res) => {
     if (res.ok) {
       const data = await res.json();
 
-      // store in localStorage
       sessionStorage.setItem("classteacher_id", data.id);
-      // navigate after login
       navigate("/classteacher-studentList");
     } else {
       const data = await res.json();

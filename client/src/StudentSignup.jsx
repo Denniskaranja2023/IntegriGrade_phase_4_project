@@ -1,195 +1,169 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import './App.css';
 
-const validationSchema = Yup.object({
-  name: Yup.string()
-    .required('Student Name is required')
-    .min(2, 'Name must be at least 2 characters'),
-  guardian_id: Yup.string()
-    .required('Guardian is required'),
-  classteacher_id: Yup.string()
-    .required('Class Teacher is required'),
-  password: Yup.string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Passwords must match')
-    .required('Confirm Password is required')
-});
-
-function StudentSignup() {
+const StudentSignup = () => {
   const navigate = useNavigate();
   const [classteachers, setClassteachers] = useState([]);
   const [guardians, setGuardians] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchOptions();
+    fetch('/api/classteachers')
+      .then(res => res.json())
+      .then(data => setClassteachers(data))
+      .catch(error => console.error('Error fetching classteachers:', error));
+
+    fetch('/api/guardians')
+      .then(res => res.json())
+      .then(data => setGuardians(data))
+      .catch(error => console.error('Error fetching guardians:', error));
   }, []);
 
-  const fetchOptions = async () => {
-    try {
-      const [classteachersRes, guardiansRes] = await Promise.all([
-        fetch('/api/classteachers'),
-        fetch('/api/guardians')
-      ]);
+  const validationSchema = yup.object().shape({
+    name: yup.string().required('Name is required'),
+    password: yup.string().required('Password is required').min(7, 'Password must be at least 7 characters'),
+    classteacher_id: yup.number().required('Classteacher is required'),
+    guardian_id: yup.number().required('Guardian is required'),
+    image: yup.string()
+  });
 
-      if (classteachersRes.ok && guardiansRes.ok) {
-        const classteachersData = await classteachersRes.json();
-        const guardiansData = await guardiansRes.json();
-        setClassteachers(classteachersData);
-        setGuardians(guardiansData);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching options:', error);
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async (values) => {
-    try {
-      const response = await fetch('/api/students/signup', {
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      password: '',
+      classteacher_id: '',
+      guardian_id: '',
+      image: ''
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      fetch('/api/students/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: values.name,
-          guardian_id: parseInt(values.guardian_id),
-          classteacher_id: parseInt(values.classteacher_id),
-          image: values.image,
-          password: values.password
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+      })
+      .then(res => {
+        if (res.status === 201) {
+          alert('Student account created successfully');
+          formik.resetForm();
+          navigate('/student-login');
+        } else {
+          return res.json().then(data => {
+            throw new Error(data.error || 'Signup failed');
+          });
+        }
+      })
+      .catch(error => {
+        alert('Signup failed: ' + error.message);
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert(errorData.error || 'Signup failed');
-        return;
-      }
-
-      const data = await response.json();
-      alert('Account created successfully!');
-      navigate('/student-login');
-    } catch (error) {
-      console.error('Signup error:', error);
-      alert('Signup failed. Please try again.');
     }
-  };
-
-  if (loading) {
-    return (
-      <div className="login-container">
-        <div style={{textAlign: 'center', marginTop: '50px'}}>
-          <h2>Loading...</h2>
-        </div>
-      </div>
-    );
-  }
+  });
 
   return (
-    <div className="login-container">
-      <div className="login-form">
-        <h2 className="login-title">Student Sign Up</h2>
-        
-        <Formik
-          initialValues={{
-            name: '',
-            guardian_id: '',
-            classteacher_id: '',
-            image: '',
-            password: '',
-            confirmPassword: ''
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          <Form>
+    <>
+      <nav className="navbar">
+        <div className="navbar-brand">
+          <span className="brand-integri">Integri</span>
+          <span className="brand-grade">Grade</span>
+        </div>
+      </nav>
+      
+      <div className="login-container">
+        <div className="login-form">
+          <h2 className="login-title">Student Signup</h2>
+          
+          <form onSubmit={formik.handleSubmit}>
             <div className="form-group">
-              <label htmlFor="studentName">Full Name:</label>
-              <Field
+              <label htmlFor="name" className="form-label">Name:</label>
+              <input
                 type="text"
                 id="name"
                 name="name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
                 className="form-input"
+                required
               />
-              <ErrorMessage name="name" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="guardian_id">Select Guardian:</label>
-              <Field as="select" id="guardian_id" name="guardian_id" className="form-input">
-                <option value="">Choose a Guardian</option>
-                {guardians.map(guardian => (
-                  <option key={guardian.id} value={guardian.id}>
-                    {guardian.name} ({guardian.relationship})
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name="guardian_id" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="classteacher_id">Select Class Teacher:</label>
-              <Field as="select" id="classteacher_id" name="classteacher_id" className="form-input">
-                <option value="">Choose a Class Teacher</option>
-                {classteachers.map(teacher => (
-                  <option key={teacher.id} value={teacher.id}>
-                    {teacher.name}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name="classteacher_id" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="image">Profile Image:</label>
-              <Field
-                type="text"
-                id="image"
-                name="image"
-                className="form-input"
-              />
+              <p className="error-message">{formik.errors.name}</p>
             </div>
             
             <div className="form-group">
-              <label htmlFor="password">Password:</label>
-              <Field
+              <label htmlFor="password" className="form-label">Password:</label>
+              <input
                 type="password"
                 id="password"
                 name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 className="form-input"
+                required
               />
-              <ErrorMessage name="password" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
+              <p className="error-message">{formik.errors.password}</p>
             </div>
-
+            
             <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password:</label>
-              <Field
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
+              <label htmlFor="classteacher_id" className="form-label">Select Classteacher:</label>
+              <select
+                id="classteacher_id"
+                name="classteacher_id"
+                value={formik.values.classteacher_id}
+                onChange={formik.handleChange}
+                className="form-input"
+                required
+              >
+                <option value="">Choose a classteacher</option>
+                {classteachers.map(ct => (
+                  <option key={ct.id} value={ct.id}>{ct.name}</option>
+                ))}
+              </select>
+              <p className="error-message">{formik.errors.classteacher_id}</p>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="guardian_id" className="form-label">Select Guardian:</label>
+              <select
+                id="guardian_id"
+                name="guardian_id"
+                value={formik.values.guardian_id}
+                onChange={formik.handleChange}
+                className="form-input"
+                required
+              >
+                <option value="">Choose a guardian</option>
+                {guardians.map(guardian => (
+                  <option key={guardian.id} value={guardian.id}>{guardian.name}</option>
+                ))}
+              </select>
+              <p className="error-message">{formik.errors.guardian_id}</p>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="image" className="form-label">Image URL (optional):</label>
+              <input
+                type="text"
+                id="image"
+                name="image"
+                value={formik.values.image}
+                onChange={formik.handleChange}
                 className="form-input"
               />
-              <ErrorMessage name="confirmPassword" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
+              <p className="error-message">{formik.errors.image}</p>
             </div>
             
             <button type="submit" className="login-button">
               Sign Up
             </button>
-          </Form>
-        </Formik>
-        
-        <button onClick={() => navigate('/student-login')} className="back-button">
-          Already have an account? Login
-        </button>
+          </form>
+          
+          <button onClick={() => navigate('/student-login')} className="back-button">
+            Back to Login
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
-}
+};
 
 export default StudentSignup;

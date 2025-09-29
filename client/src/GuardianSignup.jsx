@@ -5,12 +5,12 @@ import * as Yup from 'yup';
 import './App.css';
 
 const validationSchema = Yup.object({
-  guardianName: Yup.string()
+  name: Yup.string()
     .required('Guardian Name is required')
     .min(2, 'Name must be at least 2 characters'),
   relationship: Yup.string()
     .required('Relationship is required'),
-  phoneNumber: Yup.string()
+  phone_number: Yup.string()
     .required('Phone Number is required')
     .min(10, 'Phone number must be at least 10 digits'),
   password: Yup.string()
@@ -28,9 +28,9 @@ function GuardianSignup() {
     console.log('Form submitted with values:', values);
     try {
       const requestData = {
-        name: values.guardianName,
+        name: values.name,
         relationship: values.relationship,
-        phone_number: values.phoneNumber,
+        phone_number: values.phone_number,
         password: values.password
       };
       console.log('Sending request data:', requestData);
@@ -69,9 +69,9 @@ function GuardianSignup() {
         
         <Formik
           initialValues={{
-            guardianName: '',
+            name: '',
             relationship: '',
-            phoneNumber: '',
+            phone_number: '',
             password: '',
             confirmPassword: ''
           }}
@@ -80,14 +80,14 @@ function GuardianSignup() {
         >
           <Form>
             <div className="form-group">
-              <label htmlFor="guardianName">Full Name:</label>
+              <label htmlFor="name">Full Name:</label>
               <Field
                 type="text"
-                id="guardianName"
-                name="guardianName"
+                id="name"
+                name="name"
                 className="form-input"
               />
-              <ErrorMessage name="guardianName" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
+              <ErrorMessage name="name" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
             </div>
 
             <div className="form-group">
@@ -104,14 +104,14 @@ function GuardianSignup() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="phoneNumber">Phone Number:</label>
+              <label htmlFor="phone_number">Phone Number:</label>
               <Field
                 type="tel"
-                id="phoneNumber"
-                name="phoneNumber"
+                id="phone_number"
+                name="phone_number"
                 className="form-input"
               />
-              <ErrorMessage name="phoneNumber" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
+              <ErrorMessage name="phone_number" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
             </div>
             
             <div className="form-group">

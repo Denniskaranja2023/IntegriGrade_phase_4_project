@@ -1,100 +1,107 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import './App.css';
 
-const validationSchema = Yup.object({
-  studentName: Yup.string()
-    .required('Student Name is required')
-    .min(2, 'Student Name must be at least 2 characters'),
-  password: Yup.string()
-    .required('Password is required')
-    .max(12, 'Password must be at most 12 characters')
-});
-
-function StudentLogin() {
+const StudentLogin = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = async (values) => {
-    try {
-      const response = await fetch('/api/students/login', {
+  const validationSchema = yup.object().shape({
+    name: yup.string().required('Name is required'),
+    password: yup.string().required('Password is required')
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      password: ''
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      fetch('/api/students/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: values.studentName,
-          password: values.password
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values)
+      })
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error('Invalid credentials');
+        }
+      })
+      .then(data => {
+        alert('Login successful');
+        sessionStorage.setItem('student_id', data.id);
+        document.cookie = `student_session=${data.id}; path=/`;
+        formik.resetForm();
+        navigate('/student-dashboard');
+      })
+      .catch(error => {
+        alert('Login failed: ' + error.message);
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert(errorData.error || 'Login failed');
-        return;
-      }
-
-      const data = await response.json();
-      sessionStorage.setItem('student_id', data.id);
-      sessionStorage.setItem('student_name', data.name);
-      navigate('/student-dashboard');
-    } catch (error) {
-      console.error('Login error:', error);
-      alert('Login failed. Please try again.');
     }
-  };
+  });
 
   return (
-    <div className="login-container">
-      <div className="login-form">
-        <h2 className="login-title">Student Login</h2>
-        
-        <Formik
-          initialValues={{ studentName: '', password: '' }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          <Form>
+    <>
+      <nav className="navbar">
+        <div className="navbar-brand">
+          <span className="brand-integri">Integri</span>
+          <span className="brand-grade">Grade</span>
+        </div>
+      </nav>
+      
+      <div className="login-container">
+        <div className="login-form">
+          <h2 className="login-title">Student Login</h2>
+          
+          <form onSubmit={formik.handleSubmit}>
             <div className="form-group">
-              <label htmlFor="studentName">Student Name:</label>
-              <Field
+              <label htmlFor="name" className="form-label">Name:</label>
+              <input
                 type="text"
-                id="studentName"
-                name="studentName"
+                id="name"
+                name="name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
                 className="form-input"
+                required
               />
-              <ErrorMessage name="studentName" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
+              <p className="error-message">{formik.errors.name}</p>
             </div>
             
             <div className="form-group">
-              <label htmlFor="password">Password:</label>
-              <Field
+              <label htmlFor="password" className="form-label">Password:</label>
+              <input
                 type="password"
                 id="password"
                 name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 className="form-input"
+                required
               />
-              <ErrorMessage name="password" component="div" style={{color: '#027373', fontSize: '14px', marginTop: '5px'}} />
+              <p className="error-message">{formik.errors.password}</p>
             </div>
             
             <button type="submit" className="login-button">
               Login
             </button>
-          </Form>
-        </Formik>
-        
-        <div style={{display: 'flex', gap: '10px'}}>
-          <button onClick={() => navigate('/student-signup')} className="back-button" style={{flex: 1}}>
-            Sign Up
-          </button>
-          <button onClick={() => navigate('/')} className="back-button" style={{flex: 1}}>
+          </form>
+          
+          <button onClick={() => navigate('/')} className="back-button">
             Back to Home
+          </button>
+          
+          <button onClick={() => navigate('/student-signup')} className="back-button">
+            Sign Up
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
-}
+};
 
 export default StudentLogin;
