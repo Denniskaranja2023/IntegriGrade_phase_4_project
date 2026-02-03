@@ -42,16 +42,14 @@ metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
 db = SQLAlchemy(metadata=metadata)
-
+migrate = Migrate()
+bcrypt = Bcrypt(app)
+api = Api(app)
 CORS(app)
 
-migrate= Migrate(app,db)
-
+# Initialize extensions that require app
 db.init_app(app)
-
-api=Api(app)
-
-bcrypt= Bcrypt(app)
+migrate.init_app(app, db)
 
 import server.app
 

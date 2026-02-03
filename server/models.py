@@ -1,7 +1,6 @@
-from config import db
+from server.config import db, bcrypt
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
-from config import bcrypt
 
 class ClassTeacher(db.Model, SerializerMixin):
     __tablename__ = 'classteachers'
