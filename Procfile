@@ -1,3 +1,4 @@
-web: gunicorn server.config:app --bind 0.0.0.0:8080
+release: cd server && python -m flask db upgrade
+web: cd server && gunicorn config:app --bind 0.0.0.0:8080
 
 

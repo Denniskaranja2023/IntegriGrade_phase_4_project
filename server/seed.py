@@ -1,26 +1,45 @@
 # Set SQLite before importing config to ensure we use local database
 import os
-os.environ['DATABASE_URL'] = 'sqlite:///dev.db'
+import sys
 
-from models import *
+# Add project root to Python path so absolute imports work
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+# Use DATABASE_URL from command line if provided, otherwise use SQLite
+if len(sys.argv) > 1:
+    os.environ['DATABASE_URL'] = sys.argv[1]
+    print(f"Using database from command line: {sys.argv[1][:50]}...")
+else:
+    os.environ['DATABASE_URL'] = 'sqlite:///dev.db'
+    print("Using SQLite database for local development")
+
+from server.models import *
 from faker import Faker
 import random
-from config import db, app
+from server.config import db, app
 
 fake =Faker()
 with app.app_context():
-    # Drop all tables and recreate them to start fresh
-    db.drop_all()
-    db.create_all()
+    # Clear all existing data using ORM delete operations
+    StudentSubject.query.delete()
+    TeacherSubject.query.delete()
+    Student.query.delete()
+    Subject.query.delete()
+    Guardian.query.delete()
+    ClassTeacher.query.delete()
+    Teacher.query.delete()
+    db.session.commit()
     
-    print("Database tables recreated successfully")
+    print("Database cleared successfully")
     class_teachers = []
     
-    class_teacher1= ClassTeacher(id=1, name="Anne Wanjiku", age=30, gender="Female", phone_number="0723456371")
+    class_teacher1= ClassTeacher(name="Anne Wanjiku", age=30, gender="Female", phone_number="0723456371")
     class_teacher1.password_hash = "classteacher"
-    class_teacher2= ClassTeacher(id=2, name="Esther Wangui", age=50, gender="Female", phone_number="0756234589")
+    class_teacher2= ClassTeacher(name="Esther Wangui", age=50, gender="Female", phone_number="0756234589")
     class_teacher2.password_hash = "classteacher"
-    class_teacher3= ClassTeacher(id=3, name="John Kamau", age=40, gender="Male", phone_number="0722678987")
+    class_teacher3= ClassTeacher(name="John Kamau", age=40, gender="Male", phone_number="0722678987")
     class_teacher3.password_hash = "classteacher"
     db.session.add_all([class_teacher1, class_teacher2, class_teacher3])
     db.session.commit()
@@ -28,7 +47,7 @@ with app.app_context():
     relationships=["Parent", "Guardian"]
     
     guardians=[]
-    guardian_ex=Guardian(id=1, name="Andrew Kibe" , phone_number="0723456371", relationship="Parent")
+    guardian_ex=Guardian(name="Andrew Kibe" , phone_number="0723456371", relationship="Parent")
     guardian_ex.password_hash = "guardian"
     guardians.append(guardian_ex)
     for i in range(15):
@@ -41,7 +60,7 @@ with app.app_context():
     
     
     teachers = []
-    teacher_ex=Teacher(id=1, name="Jane Wambui", age=30, gender="Female", phone_number="0723456371")
+    teacher_ex=Teacher(name="Jane Wambui", age=30, gender="Female", phone_number="0723456371")
     teacher_ex.password_hash = "teacher"
     teachers.append(teacher_ex)
     for i in range(5):
@@ -72,7 +91,7 @@ with app.app_context():
     guardian_ids = [g.id for g in guardians]
     
     students = []
-    student_ex=Student(id=1, name="Charlie Kirk", classteacher_id=classteacher_ids[0], guardian_id=guardian_ids[0], general_report="Doing well. Well done", fee_status=True, image="https://thumbs.dreamstime.com/b/happy-black-teen-boy-outside-african-american-smiles-sitting-bench-192130399.jpg")
+    student_ex=Student(name="Charlie Kirk", classteacher_id=classteacher_ids[0], guardian_id=guardian_ids[0], general_report="Doing well. Well done", fee_status=True, image="https://thumbs.dreamstime.com/b/happy-black-teen-boy-outside-african-american-smiles-sitting-bench-192130399.jpg")
     student_ex.password_hash = "student"
     students.append(student_ex)
     for i in range(30):
