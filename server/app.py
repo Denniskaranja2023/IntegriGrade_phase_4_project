@@ -1,5 +1,5 @@
-from config import app, api, Resource, make_response, request, db
-from models import *
+from server.config import app, api, Resource, make_response, request, db
+from server.models import *
 from flask import session
 from flask import render_template
 
