@@ -1,3 +1,7 @@
+# Set SQLite before importing config to ensure we use local database
+import os
+os.environ['DATABASE_URL'] = 'sqlite:///dev.db'
+
 from models import *
 from faker import Faker
 import random
@@ -5,15 +9,11 @@ from config import db, app
 
 fake =Faker()
 with app.app_context():
-    # Delete in correct order to avoid foreign key violations
-    StudentSubject.query.delete()
-    TeacherSubject.query.delete()
-    Student.query.delete()
-    Teacher.query.delete()
-    Guardian.query.delete()
-    ClassTeacher.query.delete()
-    Subject.query.delete()
-    db.session.commit()
+    # Drop all tables and recreate them to start fresh
+    db.drop_all()
+    db.create_all()
+    
+    print("Database tables recreated successfully")
     class_teachers = []
     
     class_teacher1= ClassTeacher(id=1, name="Anne Wanjiku", age=30, gender="Female", phone_number="0723456371")

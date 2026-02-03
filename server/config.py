@@ -16,10 +16,25 @@ app = Flask(
     template_folder='../client/dist'
 )
 app.secret_key = b' \xee5#\x02\x9d\xe1{\x8fIDMy/F\xa3'
+
+# Database configuration: Use SQLite for local development, PostgreSQL for production
 DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI']= DATABASE_URL
+
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL is not set")
+
+# Check if we're in a production environment (Railway sets DATABASE_URL)
+# If DATABASE_URL is set and contains a valid PostgreSQL connection, use it
+# Otherwise, fall back to SQLite for local development
+if DATABASE_URL and DATABASE_URL.startswith(("postgres://", "postgresql://")):
+    # Production: PostgreSQL (Railway or other PostgreSQL provider)
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+else:
+    # Local development: Use SQLite
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
