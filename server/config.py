@@ -53,5 +53,9 @@ api=Api(app)
 
 bcrypt= Bcrypt(app)
 
+import server.app
+
 print("Registered routes:")
 print(app.url_map)
+
+
