@@ -8,7 +8,7 @@ const TeacherLogin = () => {
   const navigate = useNavigate();
 
   const validationSchema = yup.object().shape({
-    name: yup.string().required('Name is required'),
+    name: yup.string().required('Name is always required'),
     password: yup.string().required('Password is required')
   });
 
