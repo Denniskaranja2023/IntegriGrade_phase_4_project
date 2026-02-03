@@ -16,7 +16,10 @@ app = Flask(
     template_folder='../client/dist'
 )
 app.secret_key = b' \xee5#\x02\x9d\xe1{\x8fIDMy/F\xa3'
-app.config['SQLALCHEMY_DATABASE_URI']= os.environ.get('DATABASE_URI', 'sqlite:///app.db')
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI']= DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
