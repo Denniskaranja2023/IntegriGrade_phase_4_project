@@ -20,9 +20,6 @@ app.secret_key = b' \xee5#\x02\x9d\xe1{\x8fIDMy/F\xa3'
 # Database configuration: Use SQLite for local development, PostgreSQL for production
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL is not set")
-
 # Check if we're in a production environment (Railway sets DATABASE_URL)
 # If DATABASE_URL is set and contains a valid PostgreSQL connection, use it
 # Otherwise, fall back to SQLite for local development
@@ -31,9 +28,15 @@ if DATABASE_URL and DATABASE_URL.startswith(("postgres://", "postgresql://")):
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+    print(f"Using PostgreSQL database: {DATABASE_URL[:50]}...")
+elif DATABASE_URL:
+    # DATABASE_URL is set but not a valid PostgreSQL URL - warn and use SQLite
+    print(f"WARNING: DATABASE_URL set but not a valid PostgreSQL URL: {DATABASE_URL[:50]}...")
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.db'
 else:
     # Local development: Use SQLite
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.db'
+    print("Using SQLite database for local development")
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
