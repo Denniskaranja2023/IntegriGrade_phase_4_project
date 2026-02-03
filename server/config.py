@@ -52,3 +52,6 @@ db.init_app(app)
 api=Api(app)
 
 bcrypt= Bcrypt(app)
+
+print("Registered routes:")
+print(app.url_map)
