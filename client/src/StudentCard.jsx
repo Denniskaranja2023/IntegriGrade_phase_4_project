@@ -203,7 +203,7 @@ function StudentCard({ student, setRefreshPage, refreshPage }) {
           </span>
         </p>
         
-        <p>
+        <p style={{fontWeight:"bold", color:"black"}}>
           <strong style={{fontWeight:"bold", color:"black"}}>General Report:</strong> {student.general_report || 'No report available'}
         </p>
       </div>
