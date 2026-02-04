@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import baseUrl from './api';
+import './App.css';
 
 function StudentCard({ student, setRefreshPage, refreshPage }) {
   const [showEditForm, setShowEditForm] = useState(false);
