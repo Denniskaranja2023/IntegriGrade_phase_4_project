@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import './App.css';
+import baseUrl from './api';
 
 const StudentSignup = () => {
   const navigate = useNavigate();
@@ -10,12 +11,12 @@ const StudentSignup = () => {
   const [guardians, setGuardians] = useState([]);
 
   useEffect(() => {
-    fetch('/api/classteachers')
+    fetch(`${baseUrl}/api/classteachers`)
       .then(res => res.json())
       .then(data => setClassteachers(data))
       .catch(error => console.error('Error fetching classteachers:', error));
 
-    fetch('/api/guardians')
+    fetch(`${baseUrl}/api/guardians`)
       .then(res => res.json())
       .then(data => setGuardians(data))
       .catch(error => console.error('Error fetching guardians:', error));
@@ -39,7 +40,7 @@ const StudentSignup = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      fetch('/api/students/signup', {
+      fetch(`${baseUrl}/api/students/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)

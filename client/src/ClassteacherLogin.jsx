@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {useFormik} from 'formik'
 import * as yup from "yup"
 import './App.css';
+import baseUrl from './api';
 
 function ClassteacherLogin() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const formik= useFormik({
   onSubmit:(values)=>{
     setLoading(true);
     setError('');
-   fetch("/api/classteachers/login", {
+   fetch(`${baseUrl}/api/classteachers/login`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(values),

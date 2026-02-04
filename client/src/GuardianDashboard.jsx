@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
+import baseUrl from './api';
 
 function GuardianDashboard() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function GuardianDashboard() {
         return;
       }
 
-      const response = await fetch(`/api/guardians/${guardianId}/students`);
+      const response = await fetch(`${baseUrl}/api/guardians/${guardianId}/students`);
       if (!response.ok) {
         throw new Error('Failed to fetch guardian data');
       }
@@ -44,7 +45,7 @@ function GuardianDashboard() {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/guardians/logout', { method: 'POST' });
+      await fetch(`${baseUrl}/api/guardians/logout`, { method: 'POST' });
       sessionStorage.removeItem('guardian_id');
       sessionStorage.removeItem('guardian_name');
       navigate('/');

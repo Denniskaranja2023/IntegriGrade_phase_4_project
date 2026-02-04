@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import './App.css';
+import baseUrl from './api';
 
 const StudentLogin = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const StudentLogin = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      fetch('/api/students/login', {
+      fetch(`${baseUrl}/api/students/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StudentCard from './StudentCard';
 import ClassTeacherNavbar from "./ClassTeacherNavbar";
+import baseUrl from './api';
 
 function ClassStudentList() {
   const[students, setStudents]= useState(null)
@@ -11,7 +12,7 @@ function ClassStudentList() {
 
   const teacherId = sessionStorage.getItem("classteacher_id")
   useEffect(()=>{
-    fetch(`/api/classteachers/${teacherId}/students`)
+    fetch(`${baseUrl}/api/classteachers/${teacherId}/students`)
     .then(async (res)=>{
       if(res.status===200){
        const data = await res.json();

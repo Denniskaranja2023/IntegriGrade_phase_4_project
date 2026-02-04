@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TeacherStudentCard from './TeacherStudentCard.jsx';
 import './App.css';
+import baseUrl from './api';
 
 const TeacherStudentList = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const TeacherStudentList = () => {
   const handleLogout = () => {
     const confirmLogout = confirm('Are you sure you want to logout?');
     if (confirmLogout) {
-      fetch('/api/teachers/logout', {
+      fetch(`${baseUrl}/api/teachers/logout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       })
@@ -28,7 +29,7 @@ const TeacherStudentList = () => {
   };
 
   useEffect(() => {
-    fetch(`/api/teachers/${teacherId}/students`)
+    fetch(`${baseUrl}/api/teachers/${teacherId}/students`)
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();

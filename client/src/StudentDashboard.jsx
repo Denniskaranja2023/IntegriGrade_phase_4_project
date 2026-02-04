@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './App.css';
+import baseUrl from './api';
 
 const updateValidationSchema = Yup.object({
   name: Yup.string()
@@ -36,7 +37,7 @@ function StudentDashboard() {
       }
 
       // Fetch student profile
-      const profileResponse = await fetch(`/api/students/${studentId}/profile`);
+      const profileResponse = await fetch(`${baseUrl}/api/students/${studentId}/profile`);
       if (!profileResponse.ok) {
         throw new Error('Failed to fetch student profile');
       }
@@ -44,7 +45,7 @@ function StudentDashboard() {
       setStudentData(profileData);
 
       // Fetch student subjects
-      const subjectsResponse = await fetch(`/api/students/${studentId}/subjects`);
+      const subjectsResponse = await fetch(`${baseUrl}/api/students/${studentId}/subjects`);
       if (!subjectsResponse.ok) {
         throw new Error('Failed to fetch student subjects');
       }
@@ -72,7 +73,7 @@ function StudentDashboard() {
         return;
       }
 
-      const response = await fetch(`/api/students/${studentId}/profile/update`, {
+      const response = await fetch(`${baseUrl}/api/students/${studentId}/profile/update`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ function StudentDashboard() {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/students/logout', { method: 'POST' });
+      await fetch(`${baseUrl}/api/students/logout`, { method: 'POST' });
       sessionStorage.removeItem('student_id');
       sessionStorage.removeItem('student_name');
       navigate('/');

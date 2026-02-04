@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './App.css';
+import baseUrl from './api';
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -35,7 +36,7 @@ function GuardianSignup() {
       };
       console.log('Sending request data:', requestData);
       
-      const response = await fetch('/api/guardians/signup', {
+      const response = await fetch(`${baseUrl}/api/guardians/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

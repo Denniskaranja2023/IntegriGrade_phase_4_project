@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import './App.css';
+import baseUrl from './api';
 
 const TeacherStudentCard = ({ student, teacherId, setRefreshPage, refreshPage }) => {
   const [showGradeForm, setShowGradeForm] = useState(false);
@@ -14,7 +15,7 @@ const TeacherStudentCard = ({ student, teacherId, setRefreshPage, refreshPage })
     initialValues: { grade: student.grade || '' },
     validationSchema: gradeSchema,
     onSubmit: (values) => {
-      fetch(`/api/teachers/${teacherId}/students/${student.id}/grade`, {
+      fetch(`${baseUrl}/api/teachers/${teacherId}/students/${student.id}/grade`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values)

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './App.css';
+import baseUrl from './api';
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -18,7 +19,7 @@ function GuardianLogin() {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await fetch('/api/guardians/login', {
+      const response = await fetch(`${baseUrl}/api/guardians/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

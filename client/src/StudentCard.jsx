@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
+import baseUrl from './api';
 
 function StudentCard({ student, setRefreshPage, refreshPage }) {
   const [showEditForm, setShowEditForm] = useState(false);
@@ -11,7 +12,7 @@ function StudentCard({ student, setRefreshPage, refreshPage }) {
   function handleDelete(){
    const confirmMessage= confirm("Are you sure you want to remove this student from your class?")
    if (!confirmMessage) return
-   fetch(`/api/students/${student.id}`, {
+   fetch(`${baseUrl}/api/students/${student.id}`, {
     method:"DELETE",
    }).
    then(res=> {
@@ -26,12 +27,12 @@ function StudentCard({ student, setRefreshPage, refreshPage }) {
   }
 
   useEffect(() => {
-    fetch('/api/teachers')
+    fetch(`${baseUrl}/api/teachers`)
       .then(res => res.json())
       .then(data => setTeachers(data))
       .catch(error => console.error('Error fetching teachers:', error));
 
-    fetch('/api/subjects')
+    fetch(`${baseUrl}/api/subjects`)
       .then(res => res.json())
       .then(data => setSubjects(data))
       .catch(error => console.error('Error fetching subjects:', error));
@@ -46,7 +47,7 @@ function StudentCard({ student, setRefreshPage, refreshPage }) {
     initialValues: { teacher_id: '', subject_id: '' },
     validationSchema: subjectFormSchema,
     onSubmit: (values) => {
-      fetch('/api/student_subjects', {
+      fetch(`${baseUrl}/api/student_subjects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -79,7 +80,7 @@ function StudentCard({ student, setRefreshPage, refreshPage }) {
    initialValues: {general_report:"", fee_status:""},
    validationSchema: formSchema,
    onSubmit: (values)=>{
-    fetch(`/api/students/${student.id}`, {
+    fetch(`${baseUrl}/api/students/${student.id}`, {
       method: "PUT",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify(values)
