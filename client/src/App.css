@@ -669,13 +669,12 @@
 
 /* StudentCard Styles */
 .student-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 2px solid #027373;
+  border-radius: 12px;
   padding: 20px;
-  margin: 10px 0;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  
+  margin: 15px 0;
+  background-color: #F2E7DC;
+  box-shadow: 0 4px 8px rgba(2, 115, 115, 0.2);
 }
 
 .student-header {
@@ -695,12 +694,14 @@
 
 .student-name {
   margin: 0 0 5px 0;
-  color: #333;
+  color: #0D0D0D;
+  font-size: 1.4rem;
 }
 
 .student-guardian {
   margin: 0;
-  color: #666;
+  color: #027373;
+  font-weight: bold;
 }
 
 .student-info {
@@ -728,7 +729,10 @@
 
 .subjects-title {
   margin: 10px 0;
-  color: #333;
+  color: #0D0D0D;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #027373;
+  padding-bottom: 8px;
 }
 
 .subjects-grid {
@@ -738,25 +742,37 @@
 }
 
 .subject-card {
-  background-color: white;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #eee;
+  background-color: #A9D9D0;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #027373;
+  box-shadow: 0 2px 4px rgba(2, 115, 115, 0.2);
 }
 
 .subject-name {
-  margin: 0 0 5px 0;
+  margin: 0 0 8px 0;
   font-weight: bold;
+  color: #0D0D0D;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #027373;
+  padding-bottom: 5px;
 }
 
 .subject-teacher {
-  margin: 0 0 5px 0;
+  margin: 0 0 8px 0;
   font-size: 14px;
+  color: #027373;
 }
 
 .subject-grade {
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
+  color: #0D0D0D;
+  background-color: #F2E7DC;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: bold;
 }
 
 .grade-value {
@@ -764,8 +780,12 @@
 }
 
 .no-subjects {
-  color: #666;
+  color: #027373;
   font-style: italic;
+  font-size: 1.1rem;
+  padding: 15px;
+  background-color: #A9D9D0;
+  border-radius: 8px;
 }
 
 /* Global Image Styling */
