@@ -112,7 +112,7 @@ function StudentCard({ student, setRefreshPage, refreshPage }) {
         )}
         <div>
           <h3 className="student-name">{student.name}</h3>
-          <h4 style={{fontWeight:"bold", textDecoration:"underline", marginBottom:"5px"}}>Guardian Details</h4>
+          <h4 style={{fontWeight:"bold", textDecoration:"underline", marginBottom:"5px", color:"black"}}>Guardian Details</h4>
           <p className="student-guardian">
             Guardian name: {student.guardian ? student.guardian.name : 'No guardian assigned'}
           </p>
@@ -197,14 +197,14 @@ function StudentCard({ student, setRefreshPage, refreshPage }) {
 
       <div className="student-info">
         <p>
-          <strong>Fee Status:</strong> 
+          <strong style={{fontWeight:"bold", color:"black"}}>Fee Status:</strong> 
           <span className={student.fee_status ? 'fee-cleared' : 'fee-not-cleared'}>
             {student.fee_status ? 'Cleared' : 'Not Cleared'}
           </span>
         </p>
         
         <p>
-          <strong>General Report:</strong> {student.general_report || 'No report available'}
+          <strong style={{fontWeight:"bold", color:"black"}}>General Report:</strong> {student.general_report || 'No report available'}
         </p>
       </div>
 
