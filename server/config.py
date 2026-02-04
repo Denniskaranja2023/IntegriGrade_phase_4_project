@@ -48,7 +48,7 @@ db = SQLAlchemy(metadata=metadata)
 migrate = Migrate()
 bcrypt = Bcrypt(app)
 api = Api(app)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": ["https://integri-grade-phase-4-project.vercel.app", "http://localhost:5173"]}}, supports_credentials=True)
 
 # Initialize extensions that require app
 db.init_app(app)
